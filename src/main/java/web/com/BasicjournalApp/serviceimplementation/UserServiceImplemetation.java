@@ -1,8 +1,6 @@
 package web.com.BasicjournalApp.serviceimplementation;
 
 import java.util.List;
-
-import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +11,7 @@ import web.com.BasicjournalApp.repository.UserRepository;
 public class UserServiceImplemetation {
     @Autowired
     UserRepository useRepository;
+    
      public List<User> getAllUserData(){
       return useRepository.findAll();
     }
@@ -54,5 +53,9 @@ public class UserServiceImplemetation {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    public User findByUsername(String username) {
+        return useRepository.findByUsername(username);
     }
 }

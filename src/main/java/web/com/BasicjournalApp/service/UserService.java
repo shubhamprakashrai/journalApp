@@ -36,5 +36,10 @@ public class UserService {
     {
         return userServiceImplemetation.findPartiCularDataUser(id);
     }
+    
+    public User findByUsername(String username) {
+        return userServiceImplemetation.findByUsername(username);
+    }
+    
 
 }
