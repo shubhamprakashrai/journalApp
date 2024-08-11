@@ -58,9 +58,14 @@ public String  deleteJournal(@PathVariable String id){
 }
 
 @PostMapping("/register")
-    public String registerUser(@RequestBody User user) {
+    public ResponseEntity<String>  registerUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userService.PostUserData(user);
+        String result = userService.PostUserData(user);
+    if ("User Save Successfully".equals(result)) {
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    } else {
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
     }
 
 }
