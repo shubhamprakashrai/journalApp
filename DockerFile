@@ -1,24 +1,22 @@
-# Use an official OpenJDK runtime as a parent image
-FROM openjdk:17-jdk-alpine
-
-# Set the working directory in the container
+# Importing JDK and copying required files
+FROM openjdk:19-jdk AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src src
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy Maven wrapper
+COPY mvnw .
+COPY .mvn .mvn
 
-# Add a volume pointing to /tmp
+# Set execution permission for the Maven wrapper
+RUN chmod +x ./mvnw
+RUN ./mvnw clean package -DskipTests
+
+# Stage 2: Create the final Docker image using OpenJDK 19
+FROM openjdk:19-jdk
 VOLUME /tmp
 
-# Make port 9936 available to the world outside this container
-EXPOSE 9936
-
-# The application's jar file
-ARG JAR_FILE=target/journalApp.jar
-
-# Add the application's jar to the container
-ADD ${JAR_FILE} app.jar
-
-# Run the jar file
+# Copy the JAR from the build stage
+COPY --from=build /app/target/*.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
-# 
+EXPOSE 9936
