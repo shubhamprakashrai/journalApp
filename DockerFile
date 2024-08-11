@@ -1,15 +1,24 @@
-FROM ubuntu:latest AS build
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:17-jdk-alpine
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
-COPY . .
+# Set the working directory in the container
+WORKDIR /app
 
-RUN ./gradlew bootJar --no-daemon
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-FROM openjdk:17-jdk-slim
+# Add a volume pointing to /tmp
+VOLUME /tmp
 
+# Make port 9936 available to the world outside this container
 EXPOSE 9936
 
-COPY --from=build /build/libs/demo-1.jar app.jar
+# The application's jar file
+ARG JAR_FILE=target/journalApp.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Add the application's jar to the container
+ADD ${JAR_FILE} app.jar
+
+# Run the jar file
+ENTRYPOINT ["java","-jar","/app.jar"]
+# 
