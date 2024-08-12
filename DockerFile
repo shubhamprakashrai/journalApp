@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the JAR file into the container
-COPY target/BasicjournalApp-0.0.1-SNAPSHOT.jar /app/BasicjournalApp.jar
+COPY target/BasicjournalApp-0.0.1-SNAPSHOT.jar/app/BasicjournalApp.jar
 
 # Expose the port on which the application runs
 EXPOSE 9936
