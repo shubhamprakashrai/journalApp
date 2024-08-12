@@ -23,7 +23,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()).authorizeRequests(authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/user/**").permitAll()
+                    .requestMatchers("/user/**","/Jornal/postjournal").permitAll()
                     .anyRequest().authenticated()
             )
             .formLogin(formLogin -> formLogin .loginPage("/login").permitAll()

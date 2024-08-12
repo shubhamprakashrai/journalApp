@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping({"/home"})
-public class jornalcontroller {
+public class jornalcontroller{
 
     @Autowired
     private JornalEntryImplementaion journalEntryService;
@@ -40,7 +40,7 @@ public class jornalcontroller {
         journalEntityObj.setId(id);
         journalEntries.put(id, journalEntityObj);
         return new ResponseEntity<>(journalEntityObj, HttpStatus.CREATED);
-    }
+    }      
 
     @DeleteMapping("/deletejournal/{id}")
     public ResponseEntity<Void> deleteJournal(@PathVariable String id) {
